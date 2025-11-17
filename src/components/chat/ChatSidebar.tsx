@@ -61,32 +61,35 @@ export function ChatSidebar({
                 animate={{ opacity: 1, x: 0 }}
                 className="group relative"
               >
-                <button
-                  onClick={() => onSelectSession(session.id)}
-                  className={cn(
-                    'flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left transition-colors',
-                    activeSessionId === session.id
-                      ? 'bg-white shadow-sm dark:bg-neutral-950'
-                      : 'hover:bg-white/50 dark:hover:bg-neutral-950/50'
-                  )}
-                >
-                  <MessageSquare className="mt-0.5 h-4 w-4 flex-shrink-0 text-neutral-500 dark:text-neutral-400" />
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm font-medium">{session.title}</div>
-                    <div className="text-xs text-neutral-500 dark:text-neutral-400">
-                      {formatDate(session.updated_at)}
+                <div className="relative">
+                  <button
+                    onClick={() => onSelectSession(session.id)}
+                    className={cn(
+                      'flex w-full items-start gap-3 rounded-lg px-3 py-2 text-left transition-colors pr-10',
+                      activeSessionId === session.id
+                        ? 'bg-white shadow-sm dark:bg-neutral-950'
+                        : 'hover:bg-white/50 dark:hover:bg-neutral-950/50'
+                    )}
+                  >
+                    <MessageSquare className="mt-0.5 h-4 w-4 flex-shrink-0 text-neutral-500 dark:text-neutral-400" />
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-sm font-medium">{session.title}</div>
+                      <div className="text-xs text-neutral-500 dark:text-neutral-400">
+                        {formatDate(session.updated_at)}
+                      </div>
                     </div>
-                  </div>
+                  </button>
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
                       onDeleteSession(session.id)
                     }}
-                    className="opacity-0 transition-opacity group-hover:opacity-100"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100"
+                    aria-label="Delete session"
                   >
                     <Trash2 className="h-4 w-4 text-neutral-500 hover:text-red-600 dark:text-neutral-400 dark:hover:text-red-500" />
                   </button>
-                </button>
+                </div>
               </motion.div>
             ))}
           </div>
