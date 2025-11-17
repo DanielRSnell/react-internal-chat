@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
 import { ChatSidebar } from './ChatSidebar'
 import { ChatMessages } from './ChatMessages'
 import { ChatInput } from './ChatInput'
@@ -10,6 +12,7 @@ export function ChatInterface() {
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false)
 
   // Load sessions on mount
   useEffect(() => {
@@ -128,6 +131,7 @@ export function ChatInterface() {
 
   const handleSelectSession = (sessionId: string) => {
     setActiveSessionId(sessionId)
+    setIsMobileDrawerOpen(false) // Close drawer on mobile when session is selected
   }
 
   const handleDeleteSession = async (sessionId: string) => {
@@ -196,13 +200,68 @@ export function ChatInterface() {
 
   return (
     <div className="flex h-screen">
-      <ChatSidebar
-        sessions={sessions}
-        activeSessionId={activeSessionId}
-        onNewChat={handleNewChat}
-        onSelectSession={handleSelectSession}
-        onDeleteSession={handleDeleteSession}
-      />
+      {/* Desktop Sidebar - Always visible on md+ screens */}
+      <div className="hidden md:block">
+        <ChatSidebar
+          sessions={sessions}
+          activeSessionId={activeSessionId}
+          onNewChat={handleNewChat}
+          onSelectSession={handleSelectSession}
+          onDeleteSession={handleDeleteSession}
+        />
+      </div>
+
+      {/* Mobile Toggle Button */}
+      <button
+        onClick={() => setIsMobileDrawerOpen(true)}
+        className="fixed right-4 top-4 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-900 text-white shadow-lg transition-colors hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200 md:hidden"
+        aria-label="Open menu"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {isMobileDrawerOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsMobileDrawerOpen(false)}
+              className="fixed inset-0 z-[100] bg-black/50 md:hidden"
+            />
+
+            {/* Drawer */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed inset-0 z-[101] bg-white dark:bg-neutral-950 md:hidden"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsMobileDrawerOpen(false)}
+                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-900 text-white transition-colors hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
+                aria-label="Close menu"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <ChatSidebar
+                sessions={sessions}
+                activeSessionId={activeSessionId}
+                onNewChat={handleNewChat}
+                onSelectSession={handleSelectSession}
+                onDeleteSession={handleDeleteSession}
+              />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <div className="flex flex-1 flex-col">
         <ChatMessages messages={messages} loading={loading} />

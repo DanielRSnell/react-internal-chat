@@ -31,9 +31,9 @@ export function ChatSidebar({
   }
 
   return (
-    <div className="flex h-full w-80 flex-col border-r border-neutral-200 bg-neutral-100/50 dark:border-neutral-800 dark:bg-neutral-900/50">
+    <div className="flex h-full w-full flex-col border-r border-neutral-200 bg-neutral-100/50 md:w-80 dark:border-neutral-800 dark:bg-neutral-900/50">
       {/* Header */}
-      <div className="border-b border-neutral-200 p-4 dark:border-neutral-800">
+      <div className="border-b border-neutral-200 p-4 pt-20 md:pt-4 dark:border-neutral-800">
         <button
           onClick={onNewChat}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200"
