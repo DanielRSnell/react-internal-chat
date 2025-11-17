@@ -30,9 +30,13 @@ export function ChatMessage({
     // User message: bubble on the right
     return (
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          duration: 0.4,
+          ease: [0.25, 0.46, 0.45, 0.94],
+          scale: { duration: 0.3 }
+        }}
         className="flex justify-end px-4 py-3"
       >
         <div className="flex max-w-[70%] flex-col items-end gap-2">
@@ -49,9 +53,13 @@ export function ChatMessage({
   if (isChainOfThought) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
+        initial={{ opacity: 0, x: -20, scale: 0.97 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{
+          duration: 0.5,
+          ease: [0.16, 1, 0.3, 1],
+          scale: { duration: 0.35 }
+        }}
         className="py-2"
       >
         <div className="relative rounded-lg bg-amber-50/50 px-4 py-3 dark:bg-amber-900/10">
@@ -67,9 +75,13 @@ export function ChatMessage({
   // Agent message: full width with icon on the left
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0, y: 15, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        duration: 0.45,
+        ease: [0.21, 0.94, 0.48, 1],
+        scale: { duration: 0.35 }
+      }}
       className="group flex gap-4 px-4 py-6"
     >
       <div className="flex-shrink-0">
