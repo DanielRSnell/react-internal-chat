@@ -23,7 +23,7 @@ export function ChatInput({ onSend, disabled = false, placeholder = 'Send a mess
     }
   }
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextareaElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       handleSubmit()

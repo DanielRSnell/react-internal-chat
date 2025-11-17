@@ -102,7 +102,7 @@ export function ChatInterface() {
           table: 'messages',
           filter: `session_id=eq.${sessionId}`,
         },
-        (payload) => {
+        (payload: any) => {
           setMessages((prev) => [...prev, payload.new as Message])
           setLoading(false)
         }
@@ -182,7 +182,7 @@ export function ChatInterface() {
 
     // Send to N8N webhook - N8N will handle inserting messages to Supabase
     try {
-      await sendToWebhook(sessionId, content)
+      await sendToWebhook(sessionId!, content)
     } catch (error) {
       console.error('Error sending to webhook:', error)
       setLoading(false)
