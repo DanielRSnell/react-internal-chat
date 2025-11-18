@@ -6,8 +6,10 @@ import { ChatMessages } from './ChatMessages'
 import { ChatInput } from './ChatInput'
 import { supabase, type Session, type Message } from '@/lib/supabase'
 import { sendToWebhook } from '@/services/webhookService'
+import { useAuth } from '@/contexts/AuthContext'
 
 export function ChatInterface() {
+  const { user } = useAuth()
   const [sessions, setSessions] = useState<Session[]>([])
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
@@ -60,10 +62,26 @@ export function ChatInterface() {
     }
   }, [messages])
 
+  // Keyboard shortcut: CMD+N or CTRL+N for new chat
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+        e.preventDefault()
+        handleNewChat()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [user])
+
   const loadSessions = async () => {
+    if (!user) return
+
     const { data, error } = await supabase
       .from('sessions')
       .select('*')
+      .eq('user_id', user.id)
       .order('updated_at', { ascending: false })
 
     if (error) {
@@ -118,7 +136,13 @@ export function ChatInterface() {
   }
 
   const handleNewChat = async () => {
-    const { data, error } = await supabase.from('sessions').insert({ title: 'New Chat' }).select().single()
+    if (!user) return
+
+    const { data, error } = await supabase
+      .from('sessions')
+      .insert({ title: 'New Chat', user_id: user.id })
+      .select()
+      .single()
 
     if (error) {
       console.error('Error creating session:', error)
@@ -151,6 +175,8 @@ export function ChatInterface() {
   }
 
   const handleSendMessage = async (content: string) => {
+    if (!user) return
+
     let sessionId = activeSessionId
     let isNewSession = false
 
@@ -159,7 +185,11 @@ export function ChatInterface() {
       // Truncate to 40 characters for better sidebar display
       const title = content.length > 40 ? content.slice(0, 40) + '...' : content
 
-      const { data, error } = await supabase.from('sessions').insert({ title }).select().single()
+      const { data, error } = await supabase
+        .from('sessions')
+        .insert({ title, user_id: user.id })
+        .select()
+        .single()
 
       if (error) {
         console.error('Error creating session:', error)
@@ -186,7 +216,7 @@ export function ChatInterface() {
 
     // Send to N8N webhook - N8N will handle inserting messages to Supabase
     try {
-      await sendToWebhook(sessionId!, content)
+      await sendToWebhook(sessionId!, content, user.id)
     } catch (error) {
       console.error('Error sending to webhook:', error)
       setLoading(false)

@@ -6,17 +6,19 @@ if (!WEBHOOK_URL) {
 
 export interface WebhookPayload {
   session_id: string
+  user_id: string
   message: string
   timestamp: string
 }
 
-export async function sendToWebhook(sessionId: string, message: string): Promise<void> {
+export async function sendToWebhook(sessionId: string, message: string, userId: string): Promise<void> {
   if (!WEBHOOK_URL) {
     throw new Error('Webhook URL is not configured')
   }
 
   const payload: WebhookPayload = {
     session_id: sessionId,
+    user_id: userId,
     message,
     timestamp: new Date().toISOString(),
   }

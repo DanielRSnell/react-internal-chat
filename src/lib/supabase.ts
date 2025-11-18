@@ -12,6 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 // Database types
 export interface Session {
   id: string
+  user_id: string
   title: string
   created_at: string
   updated_at: string
@@ -20,6 +21,7 @@ export interface Session {
 export interface Message {
   id: string
   session_id: string
+  user_id: string
   content: string
   content_html: string | null
   role: 'user' | 'agent'
@@ -29,3 +31,6 @@ export interface Message {
   updated_at: string
   metadata: Record<string, any>
 }
+
+// Re-export auth types from Supabase
+export type { User, Session as AuthSession } from '@supabase/supabase-js'

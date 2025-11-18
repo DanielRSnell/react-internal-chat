@@ -1,6 +1,7 @@
-import { Plus, MessageSquare, Trash2 } from 'lucide-react'
+import { Plus, MessageSquare, Trash2, LogOut } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/contexts/AuthContext'
 import type { Session } from '@/lib/supabase'
 
 interface ChatSidebarProps {
@@ -18,6 +19,8 @@ export function ChatSidebar({
   onSelectSession,
   onDeleteSession,
 }: ChatSidebarProps) {
+  const { signOut } = useAuth()
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -28,6 +31,12 @@ export function ChatSidebar({
     if (days === 1) return 'Yesterday'
     if (days < 7) return `${days} days ago`
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
+  const handleLogout = async () => {
+    if (window.confirm('Are you sure you want to sign out?')) {
+      await signOut()
+    }
   }
 
   return (
@@ -94,6 +103,17 @@ export function ChatSidebar({
             ))}
           </div>
         )}
+      </div>
+
+      {/* Footer */}
+      <div className="border-t border-neutral-200 p-4 dark:border-neutral-800">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800"
+        >
+          <LogOut className="h-4 w-4" />
+          Sign Out
+        </button>
       </div>
     </div>
   )
