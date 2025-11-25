@@ -20,7 +20,7 @@ The DAC Study Chatbot is an AI-powered conversational interface designed to acce
 - Study Research Leads (SRL)
 - Protocol Reviewers
 
-**Technical Overview:** Modern web stack with visual workflow automation (N8N), enabling non-technical stakeholders to modify AI agent behavior without engineering resources. Self-hosted database ensures protocol confidentiality and regulatory compliance (HIPAA, GDPR, SOC 2).
+**Technical Overview:** Modern web stack with visual workflow automation (N8N), enabling non-technical stakeholders to modify AI agent behavior without engineering resources. Designed with enterprise compliance in mind for protocol confidentiality and regulatory requirements (HIPAA, GDPR, SOC 2).
 
 ---
 
@@ -55,12 +55,12 @@ The DAC Study Chatbot is an AI-powered conversational interface designed to acce
 
 ### Backend Infrastructure
 
-**Supabase (Self-Hosted)** - PostgreSQL database with enterprise features
+**Supabase** - PostgreSQL database with enterprise features
 - **PostgreSQL 15** with pgvector extension for semantic search
 - **Row Level Security (RLS)** ensures protocol isolation between competing studies
 - **Real-time subscriptions** via WebSocket for collaborative review sessions
 - **Built-in authentication** with invite-only access for research teams
-- **Self-hosted on organization infrastructure** for complete data sovereignty (HIPAA/GDPR compliance)
+- **Cloud-hosted database** with plans for self-hosted deployment for enhanced data sovereignty
 
 **N8N Workflow Engine** - Visual automation platform for AI orchestration
 - **Hosted workflow:** Cloud-managed execution environment
@@ -95,7 +95,7 @@ The DAC Study Chatbot is an AI-powered conversational interface designed to acce
 
 **N8N Cloud** - Managed workflow execution environment
 
-**Self-Hosted Supabase** - Database and authentication on organization-controlled servers for regulatory compliance
+**Supabase Cloud** - Database and authentication with enterprise security features
 
 ---
 
@@ -238,31 +238,33 @@ The system:
 
 ### Migration Strategy Overview
 
-The current prototype architecture is production-ready for small research teams (5-10 users). For enterprise deployment with 100+ researchers across multiple clinical trials, these enhancements provide:
+The current prototype architecture is fully functional for small research teams (5-10 users). For enterprise deployment with 100+ researchers across multiple clinical trials, these enhancements provide:
 
 1. **Data Sovereignty** - Complete control over protocol data location and access
 2. **Performance at Scale** - 10x faster queries with purpose-built databases
-3. **Enterprise Compliance** - HIPAA, GDPR, SOC 2 certifications
-4. **Cost Optimization** - Self-hosted infrastructure without per-seat licensing
+3. **Enhanced Compliance** - Dedicated infrastructure for HIPAA, GDPR, SOC 2 requirements
+4. **Infrastructure Control** - Self-hosted components without vendor dependencies
 
-### Phase 1: Database Self-Hosting ✅ COMPLETED
+### Phase 1: Database Self-Hosting
 
-**Status:** Already implemented - Supabase is self-hosted on organization-controlled infrastructure
+**When Needed:** Enhanced data sovereignty and regulatory compliance requirements
 
-**What We Have:**
-- Self-hosted PostgreSQL 15 with pgvector extension
-- Row Level Security (RLS) for protocol isolation
-- Real-time subscriptions for collaborative sessions
-- Complete backup and disaster recovery control
+**What This Provides:**
+- Self-hosted PostgreSQL 15 with pgvector extension on organization infrastructure
+- Complete control over protocol data location and access
+- Row Level Security (RLS) for protocol isolation between studies
+- Full backup and disaster recovery control
 
 **Why This Matters for Clinical Trials:**
-- Protocol data never leaves organization servers
-- HIPAA compliance for patient data in protocols
+- Protocol data stored on organization-controlled servers
+- Enhanced HIPAA compliance for patient data in protocols
 - GDPR compliance for international multi-site trials
-- SOC 2 audit trail for regulatory submissions
+- Complete audit trail control for regulatory submissions
 - No third-party vendor access to proprietary study designs
 
-**Next Step:** Consider Phase 2 (Qdrant) when protocol library exceeds 100K documents
+**Implementation Timeline:** 1-2 weeks
+
+**Use Case:** Organizations requiring contractual guarantees about data location and complete control over database infrastructure for regulatory compliance.
 
 ### Phase 2: Qdrant Vector Database
 
@@ -332,26 +334,27 @@ The current prototype architecture is production-ready for small research teams 
 
 ### Timeline Overview
 
-**Phase 1: Database Self-Hosting** ✅ COMPLETED
-- Status: Self-hosted Supabase operational with full RLS implementation
-- Success Criteria: All protocol data on organization servers, HIPAA compliance verified
+**Phase 1: Database Self-Hosting** (Weeks 1-2, optional)
+- Deploy self-hosted Supabase on organization infrastructure
+- Configure Row Level Security and authentication
+- Success Criteria: All protocol data on organization servers, enhanced compliance verified
 
-**Phase 2: Qdrant Vector Database** (Weeks 1-2)
+**Phase 2: Qdrant Vector Database** (Weeks 3-4, optional)
 - Deploy Qdrant via Docker
 - Migrate protocol embeddings from pgvector
 - Benchmark: Vector search <50ms for 1M protocols
 
-**Phase 3: Redis Caching** (Weeks 3-4)
+**Phase 3: Redis Caching** (Weeks 5-6, optional)
 - Deploy Redis instance
 - Implement session and message caching
 - Success Criteria: 80% cache hit rate, <1ms cache access
 
-**Phase 4: Azure OpenAI** (Week 5)
+**Phase 4: Azure OpenAI** (Week 7, optional)
 - Create organization-owned Azure OpenAI resource
 - Update N8N workflow credentials
 - Verify HIPAA compliance and BAA
 
-**Phase 5: Microsoft Integration** (Weeks 6-8, if required)
+**Phase 5: Microsoft Integration** (Weeks 8-10, optional)
 - Implement Microsoft Entra ID SSO
 - Add Teams bot for notifications (optional)
 - Enable SharePoint document access (optional)
