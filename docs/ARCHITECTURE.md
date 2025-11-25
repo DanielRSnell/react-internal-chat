@@ -34,7 +34,7 @@ The DAC Study Chatbot is an AI-powered conversational interface designed to acce
 
 **React 19.2.0** - Modern UI library for building responsive research interfaces
 - Component-based architecture enables rapid iteration on protocol review workflows
-- TypeScript provides type safety across 1,291 lines of production code
+- TypeScript provides type safety and reliable code structure
 - Real-time updates for collaborative protocol review sessions
 
 **Vite 7.2.2** - Next-generation build tool with sub-second hot module replacement
@@ -63,7 +63,7 @@ The DAC Study Chatbot is an AI-powered conversational interface designed to acce
 - **Self-hosted on organization infrastructure** for complete data sovereignty (HIPAA/GDPR compliance)
 
 **N8N Workflow Engine** - Visual automation platform for AI orchestration
-- **Hosted workflow:** api.umbral.ai/webhook/gates-test
+- **Hosted workflow:** Cloud-managed execution environment
 - **Langchain integration** with AI Agent node for multi-step reasoning
 - **PostgreSQL chat memory** scoped to individual research sessions
 - **Custom tool framework** enables organization-specific capabilities (database queries, API integrations)
@@ -87,13 +87,13 @@ The DAC Study Chatbot is an AI-powered conversational interface designed to acce
 
 ### Deployment & Hosting
 
-**Netlify** - Frontend hosting (internalchat.netlify.app)
-- Global CDN for fast access by distributed research teams
-- Automatic HTTPS and instant deployments
+**Frontend Hosting** - Global CDN for fast access by distributed research teams
+- Content delivery network for optimized performance
+- Automatic HTTPS and secure deployments
 
-**Cloudflare** - CDN and traffic routing for optimized delivery
+**CDN Layer** - Traffic routing and caching for optimized delivery
 
-**N8N Cloud** - Managed workflow execution environment (Standard plan)
+**N8N Cloud** - Managed workflow execution environment
 
 **Self-Hosted Supabase** - Database and authentication on organization-controlled servers for regulatory compliance
 
@@ -182,7 +182,7 @@ Messages with `final: false` are visually distinct, showing the agent's reasonin
    - Execute statistical validation logic
    - Integrate with protocol management systems
 
-**Current Workflow:** `n8n/agent.json` (450 lines JSON)
+**Current Workflow:** Visual workflow configuration
 
 **Custom Tools Available:**
 
@@ -360,42 +360,34 @@ The current prototype architecture is production-ready for small research teams 
 
 ## 5. Appendices
 
-### A. File References
+### A. Key Components
 
-**Frontend Source Code:**
-- `/src/App.tsx` - Authentication wrapper and routing
-- `/src/components/chat/ChatInterface.tsx` - Main protocol review interface
-- `/src/components/chat/ChatMessages.tsx` - Message grouping and chain-of-thought display
-- `/src/services/webhookService.ts` - N8N webhook integration
-- `/src/contexts/AuthContext.tsx` - Supabase authentication state
+**Frontend Components:**
+- React application with TypeScript for type safety
+- Real-time chat interface with authentication
+- Message display with chain-of-thought reasoning
+- N8N webhook integration for AI processing
 
 **Backend Configuration:**
-- `/n8n/agent.json` - N8N workflow (450 lines)
-- `/setup.sql` - Database schema creation
-- `/auth-migration.sql` - User authentication tables and RLS policies
-- `/fix-orphaned-messages.sql` - Cleanup script for orphaned messages
+- N8N workflow for AI orchestration
+- Database schema with Row Level Security
+- User authentication and session management
 
-**Documentation:**
-- `/docs/scripts/README.md` - Transcript generation guide
-- `/N8N-WORKFLOW-UPDATE.md` - N8N webhook configuration instructions
+### B. Database Implementation
 
-### B. Database Migration Scripts
-
-**Running Migrations:**
+**Implementation:**
+- Automated schema creation with Row Level Security
+- User authentication and data isolation policies
+- Real-time subscriptions for collaborative sessions
 
 ![Migration Scripts](pdfs/assets/infrastructure.png)
 
-All migration scripts located in repository root:
-- `setup.sql` - Initial schema creation
-- `auth-migration.sql` - Add user_id columns and RLS policies
-- `fix-orphaned-messages.sql` - Data cleanup for existing sessions
+### C. N8N Workflow Management
 
-### C. N8N Workflow Export
-
-The N8N workflow is exportable as JSON for version control:
-- **File:** `n8n/agent.json` (450 lines)
-- **Import:** N8N UI → Workflows → Import from File
-- **Backup:** Commit to version control after any agent behavior changes
+**Implementation:**
+- Visual workflow design exportable for version control
+- Non-technical staff can modify agent behavior through UI
+- Workflow changes can be backed up and versioned
 
 ### D. Key Diagrams
 
